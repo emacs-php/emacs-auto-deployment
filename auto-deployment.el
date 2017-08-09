@@ -4,7 +4,7 @@
 
 ;; Author: USAMI Kenta <tadsan@zonu.me>
 ;; Created: 27 Jul 2017
-;; Version: 0.0.8
+;; Version: 0.0.1
 ;; Keywords: tools php dependency manager
 ;; Package-Requires: ((emacs "24") (f "0.17") (s "1.7.0"))
 
@@ -25,7 +25,11 @@
 
 ;;; Commentary:
 
-;; Auto
+;; Put the following into your .dir-locals.el in project root directory.
+;;
+;;     ((nil . ((auto-deployment-dest-dir . "/scp:dest-server:/home/your/path/to/proj")
+;;              (auto-deployment-ignore-patterns . ("/cache")))))
+;;
 
 ;;; Code:
 (require 'cl-lib)
