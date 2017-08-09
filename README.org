@@ -1,0 +1,8 @@
+* Emacs auto-deployment
+Automatic syncronize when file saved.
+** Usege
+Put the following into your =.dir-locals.el= in project root directory.
+#+BEGIN_SRC emacs-lisp
+((nil . ((auto-deployment-dest-dir . "/scp:dest-server:/home/your/path/to/proj")
+         (auto-deployment-ignore-patterns . ("/cache")))))
+#+END_SRC
