@@ -2,3 +2,6 @@
 (source "melpa" "https://melpa.org/packages/")
 
 (package-file "auto-deployment.el")
+
+(development
+ (depends-on "projectile"))
