@@ -1,8 +1,26 @@
-* Emacs auto-deployment
-Automatic syncronize when file saved.
-** Usege
+* Emacs auto-deployment =copy-file-on-save.el=
+=copy-file-on-save= is a minor mode to copy the file to another path on [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Hooks.html][=after-save-hook=]].  This not only saves the backup in the project specific path, it also you can realize the deployment to the remote server over TRAMP.
+** Why =copy-file-on-save=?
+The original name of this feature was *auto-deployment*.  It was named after [[https://confluence.jetbrains.com/display/PhpStorm/Sync+changes+and+automatic+upload+to+a+deployment+server+in+PhpStorm][JetBrains' automatic deployment function]].  But in Emacs this function can be realized by TRAMP's excellent file system abstraction layer.  That is, deploying to remote server is just done with only =copy-file= function.
+*** vs TRAMP
+TRAMP can log in to remote server from Emacs and edit the file directly.  This means that you do not need to keep a full copy of the project on your client PC.  But at the price you will feel latency to all file system operations.
+** API
+*** Variable
+**** =(string) copy-file-on-save-dest-dir=
+Path to deployment directory or convert (mapping) function.
+
+You can use TRAMP's syntax.  See [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Configuration.html#Configuration][Configuration - TRAMP User Manual]] and [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Inline-methods.html#Inline-methods][Inline methods]].  (ex. =/scp:dest-server:/home/your/path/to/proj=)
+**** =(repeat string) copy-file-on-save-ignore-patterns=
+** Setup
+This is necessary for sharing variables in the project.
+*** Using [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html][=.dir-locals.el=]] (*RECOMMENDED*)
 Put the following into your =.dir-locals.el= in project root directory.
 #+BEGIN_SRC emacs-lisp
-((nil . ((auto-deployment-dest-dir . "/scp:dest-server:/home/your/path/to/proj")
-         (auto-deployment-ignore-patterns . ("/cache")))))
+((nil . ((copy-file-on-save-dest-dir . "/scp:dest-server:/home/your/path/to/proj")
+         (copy-file-on-save-ignore-patterns . ("/cache")))))
 #+END_SRC
+This method uses standard functions of Emacs. However, you will feel annoying warnings from Emacs.  Please see [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html#Safe-File-Variables][Safe File Variables - GNU Emacs Manual]] for how to suppress this warning.
+** Usage
+**** Manually
+=M-x copy-file-on-save= will toggle enable/disable the minor mode.
+*** Using hook with [[https://github.com/joewreschnig/auto-minor-mode][=auto-minor-mode=]]
