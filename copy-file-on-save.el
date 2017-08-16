@@ -41,7 +41,20 @@
 (require 'cl-lib)
 (require 'projectile nil)
 
-(defvar copy-file-on-save-lighter " CopyFS")
+(defgroup copy-file-on-save nil
+  "Copy file on save, automatic deployment it."
+  :group 'files)
+
+(defcustom copy-file-on-save-remove-mode-line-unless-availabled t
+  "Don't show minor mode lighter on modeline if not available `copy-file-on-save'."
+  :type 'boolean)
+
+(defcustom copy-file-on-save-default-lighter " CopyFS"
+  "Minor mode lighter to use in the mode-line."
+  :type 'string)
+
+(defvar copy-file-on-save-lighter copy-file-on-save-default-lighter)
+(make-local-variable 'copy-file-on-save-lighter)
 
 (defvar copy-file-on-save-method 'copy-file
   "Method to use deployment file.")
@@ -63,11 +76,25 @@
   (cl-loop for pattern in copy-file-on-save-ignore-patterns
            never (string-match-p pattern filename)))
 
+(defun copy-file-on-save--available ()
+  "Return t if setup `copy-file-on-save-dest-dir' and the file is not ignoted file."
+  (and buffer-file-name copy-file-on-save-dest-dir
+       (copy-file-on-save--not-matches-ignore-patterns buffer-file-name)))
+
+(defun copy-file-on-save--update-lighter (is-availabled)
+  "Update display mode-line if `IS-AVAILABLED' is non-NIL."
+  (setq copy-file-on-save-lighter (if (or is-availabled (not copy-file-on-save-remove-mode-line-unless-availabled))
+                     copy-file-on-save-default-lighter
+                   nil)))
+
 (defun copy-file-on-save--hook-after-save ()
-  "copy-file-on-save hook for after-save."
-  (when (and buffer-file-name copy-file-on-save-dest-dir
-             (copy-file-on-save--not-matches-ignore-patterns buffer-file-name))
-    (copy-file-on-save--method copy-file-on-save-method)))
+  "Run copy-file-on-save hook for after-save."
+  (if (copy-file-on-save--available)
+      (progn
+        (copy-file-on-save--update-lighter t)
+        (copy-file-on-save--method copy-file-on-save-method))
+    (prog1 nil
+      (copy-file-on-save--update-lighter nil))))
 
 (defun copy-file-on-save--detect-project-root ()
   "Return path to project root directory."
@@ -100,12 +127,23 @@
   (f-join copy-file-on-save-dest-dir (s-replace (copy-file-on-save--base-dir) "" src-file-path)))
 
 ;;;###autoload
+(defun turn-on-copy-file-on-save ()
+  "Turn on `copy-file-on-save-mode'."
+  (copy-file-on-save-mode 1))
+
+;;;###autoload
 (define-minor-mode copy-file-on-save-mode
   "Minor mode for automatic deployment/syncronize file when saved."
-  nil copy-file-on-save-lighter nil
+  :group 'copy-file-on-save
+  :lighter copy-file-on-save-lighter
+  :global t
   (if copy-file-on-save-mode
       (add-hook 'after-save-hook 'copy-file-on-save--hook-after-save nil t)
     (remove-hook 'after-save-hook 'copy-file-on-save--hook-after-save t)))
+
+;;;###autoload
+(define-globalized-minor-mode global-copy-file-on-save-mode copy-file-on-save-mode
+  turn-on-copy-file-on-save :group 'copy-file-on-save)
 
 (provide 'copy-file-on-save)
 ;;; copy-file-on-save.el ends here
