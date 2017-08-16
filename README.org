@@ -2,8 +2,14 @@
 =copy-file-on-save= is a minor mode to copy the file to another path on [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Hooks.html][after-save-hook]].  This not only saves the backup in the project specific path, it also you can realize the deployment to the remote server over TRAMP.
 ** Why =copy-file-on-save=?
 The original name of this feature was *auto-deployment*.  It was named after [[https://confluence.jetbrains.com/display/PhpStorm/Sync+changes+and+automatic+upload+to+a+deployment+server+in+PhpStorm][JetBrains' automatic deployment function]].  But in Emacs this function can be realized by TRAMP's excellent file system abstraction layer.  That is, deploying to remote server is just done with only =copy-file= function.
-*** vs TRAMP
+*** vs direct editing on TRAMP
 TRAMP can log in to remote server from Emacs and edit the file directly.  This means that you do not need to keep a full copy of the project on your client PC.  But at the price you will feel latency to all file system operations.
+
+The disadvantage of TRAMP is Emacs Lisp compatibility.  Especially in the case of several packages, processing depending on the file system is lacking consideration or it may be slow even if it works.  For example, [[https://magit.vc/][Magit]] also works via TRAMP, but it's very slow.
+*** For deployment
+A typical use of this feature is to place PHP files on the remote development server.  However, this is useful not only for PHP but also for synchronizing files without depend on shared directory function of virtual environments ([[https://www.virtualbox.org/][VirtualBox]], [[https://www.vagrantup.com/][Vagrant]] and [[https://www.docker.com/][Docker]]).
+*** Extends TRAMP
+[[https://github.com/dougm/vagrant-tramp][vagrant-tramp]] and  [[https://github.com/emacs-pe/docker-tramp.el][docker-tramp]] increase the affinity of Emacs (TRAMP) and Vagrant/Docker, so it is worth noting.
 ** API
 *** Variable
 **** =(string) copy-file-on-save-dest-dir=
@@ -11,7 +17,7 @@ Path to deployment directory or convert (mapping) function.
 
 You can use TRAMP's syntax.  See [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Configuration.html#Configuration][Configuration - TRAMP User Manual]] and [[https://www.gnu.org/software/emacs/manual/html_node/tramp/Inline-methods.html#Inline-methods][Inline methods]].  (ex. =/scp:dest-server:/home/your/path/to/proj=)
 **** =(repeat string) copy-file-on-save-ignore-patterns=
-** Setup
+** Configure for each project
 This is necessary for sharing variables in the project.
 *** Using [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html][.dir-locals.el]] (*RECOMMENDED*)
 Put the following into your =.dir-locals.el= in project root directory.
@@ -20,7 +26,13 @@ Put the following into your =.dir-locals.el= in project root directory.
          (copy-file-on-save-ignore-patterns . ("/cache")))))
 #+END_SRC
 This method uses standard functions of Emacs. However, you will feel annoying warnings from Emacs.  Please see [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html#Safe-File-Variables][Safe File Variables - GNU Emacs Manual]] for how to suppress this warning.
-** Usage
-**** Manually
-=M-x copy-file-on-save= will toggle enable/disable the minor mode.
+** How to turn on =copy-file-on-save=
+*** Enable manually
+=M-x copy-file-on-save-mode= will toggle enable/disable the minor mode.
 *** Using hook with [[https://github.com/joewreschnig/auto-minor-mode][auto-minor-mode]]
+#+BEGIN_SRC emacs-lisp
+;; Example for full directory path to your project.
+(add-to-list 'auto-minor-mode-alist `(,(format "^%s/work/your-project/" (getenv "HOME")) . copy-file-on-save-mode))
+;; You can ommit path if it is enough specific your project.
+(add-to-list 'auto-minor-mode-alist '("/work/your-project/" . copy-file-on-save-mode))
+#+END_SRC
