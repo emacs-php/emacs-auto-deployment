@@ -56,10 +56,6 @@
 (defvar copy-file-on-save-lighter copy-file-on-save-default-lighter)
 (make-local-variable 'copy-file-on-save-lighter)
 
-(defvar copy-file-on-save-method 'copy-file
-  "Method to use deployment file.")
-(make-local-variable 'copy-file-on-save-method)
-
 (defvar copy-file-on-save-dest-dir nil
   "Path to deployment directory or convert (mapping) function.")
 (make-local-variable 'copy-file-on-save-dest-dir)
@@ -92,7 +88,7 @@
   (if (copy-file-on-save--available)
       (progn
         (copy-file-on-save--update-lighter t)
-        (copy-file-on-save--method copy-file-on-save-method))
+        (copy-file-on-save--copy-file))
     (prog1 nil
       (copy-file-on-save--update-lighter nil))))
 
@@ -110,14 +106,8 @@
    ((fboundp copy-file-on-save-base-dir) (funcall copy-file-on-save-base-dir))
    (t (error "Variable copy-file-on-save-base-dir `%s' is invalid value" copy-file-on-save-base-dir))))
 
-(defun copy-file-on-save--method (method-symbol)
-  "Invoke copy-file-on-save method by `METHOD-SYMBOL'."
-  (cl-case method-symbol
-    (copy-file (copy-file-on-save--copy-file))
-    (t (funcall method-symbol))))
-
 (defun copy-file-on-save--copy-file ()
-  "Deployment a file using `copy-file'."
+  "Copy a file using `copy-file'."
   (let ((from-path buffer-file-name)
         (to-path   (copy-file-on-save--replace-path buffer-file-name)))
     (copy-file from-path to-path t)))
