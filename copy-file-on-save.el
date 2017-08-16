@@ -1,11 +1,11 @@
-;;; copy-file-on-save.el --- Automatic syncronize when file saved. -*- lexical-binding: t -*-
+;;; copy-file-on-save.el --- Copy file on save, automatic deployment it. -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2017 USAMI Kenta
 
 ;; Author: USAMI Kenta <tadsan@zonu.me>
 ;; Created: 27 Jul 2017
 ;; Version: 0.0.1
-;; Keywords: tools php dependency manager
+;; Keywords: files comm deploy
 ;; Package-Requires: ((emacs "24.3") (cl-lib "0.5") (f "0.17") (s "1.7.0"))
 
 ;; This file is NOT part of GNU Emacs.
@@ -25,6 +25,12 @@
 
 ;;; Commentary:
 
+;; =copy-file-on-save= is a minor mode to copy the file to another path on
+;; `after-save-hook'.  This not only saves the backup in the project specific
+;; path, it also you can realize the deployment to the remote server over TRAMP.
+;;
+;; ## Config
+;;
 ;; Put the following into your .dir-locals.el in project root directory.
 ;;
 ;;     ((nil . ((copy-file-on-save-dest-dir . "/scp:dest-server:/home/your/path/to/proj")
