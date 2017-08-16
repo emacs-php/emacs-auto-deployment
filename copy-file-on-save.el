@@ -39,6 +39,8 @@
 
 ;;; Code:
 (require 'cl-lib)
+(require 'f)
+(require 's)
 (require 'projectile nil)
 
 (defgroup copy-file-on-save nil
