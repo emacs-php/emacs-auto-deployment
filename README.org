@@ -27,6 +27,12 @@ Put the following into your =.dir-locals.el= in project root directory.
 #+END_SRC
 This method uses standard functions of Emacs. However, you will feel annoying warnings from Emacs.  Please see [[https://www.gnu.org/software/emacs/manual/html_node/emacs/Safe-File-Variables.html#Safe-File-Variables][Safe File Variables - GNU Emacs Manual]] for how to suppress this warning.
 ** How to turn on =copy-file-on-save=
+*** Enable global-minor-mode (*RECOMMENDED*)
+Put the following into your =init.el= or =.emacs= file.
+#+BEGIN_SRC emacs-lisp
+(global-copy-file-on-save-mode)
+#+END_SRC
+Please don't worry.  This mode does not work in buffers that do not have available settings for deployment.
 *** Enable manually
 =M-x copy-file-on-save-mode= will toggle enable/disable the minor mode.
 *** Using hook with [[https://github.com/joewreschnig/auto-minor-mode][auto-minor-mode]]
