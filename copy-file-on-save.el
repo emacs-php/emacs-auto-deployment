@@ -129,6 +129,7 @@
 ;;;###autoload
 (defun turn-on-copy-file-on-save ()
   "Turn on `copy-file-on-save-mode'."
+  (copy-file-on-save--update-lighter (copy-file-on-save--available))
   (copy-file-on-save-mode 1))
 
 ;;;###autoload
