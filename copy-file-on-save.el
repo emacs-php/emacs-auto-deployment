@@ -72,7 +72,7 @@
   "Path to deployment directory or convert (mapping) function.")
 (make-local-variable 'copy-file-on-save-dest-dir)
 
-(defvar copy-file-on-save-ignore-patterns '()
+(defvar copy-file-on-save-ignore-patterns '("/\\.dir-locals\\.el\\'" "/\\.git/")
   "Ignore deploy when buffer-filename matched by these patterns.")
 (make-local-variable 'copy-file-on-save-ignore-patterns)
 
