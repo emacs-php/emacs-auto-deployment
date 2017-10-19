@@ -71,10 +71,15 @@
 (defvar copy-file-on-save-dest-dir nil
   "Path to deployment directory or convert (mapping) function.")
 (make-local-variable 'copy-file-on-save-dest-dir)
+(put 'copy-file-on-save-dest-dir 'safe-local-variable #'stringp)
 
 (defvar copy-file-on-save-ignore-patterns '("/\\.dir-locals\\.el\\'" "/\\.git/")
   "Ignore deploy when buffer-filename matched by these patterns.")
 (make-local-variable 'copy-file-on-save-ignore-patterns)
+(put 'copy-file-on-save-ignore-patterns 'safe-local-variable
+     (lambda (obj)
+       (and (listp obj)
+            (cl-loop for o in obj always (stringp o)))))
 
 (defvar copy-file-on-save-base-dir nil
   "Path to base directory for deployment.")
