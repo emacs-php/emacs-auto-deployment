@@ -128,10 +128,9 @@
   (let* ((from-path buffer-file-name)
 	 (to-path   (copy-file-on-save--replace-path buffer-file-name))
 	 (to-dir (file-name-directory to-path)))
-    (progn
-      (if (not (file-exists-p to-dir))
-	  (make-directory to-dir t) nil)
-      (copy-file from-path to-path t))))
+    (unless (file-exists-p to-dir)
+      (make-directory to-dir t))
+    (copy-file from-path to-path t)))
 
 (defun copy-file-on-save--replace-path (src-file-path)
   "Return replace dest file path by `SRC-FILE-PATH'."
