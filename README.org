@@ -6,6 +6,10 @@ The original name of this feature was *auto-deployment*.  It was named after [[h
 TRAMP can log in to remote server from Emacs and edit the file directly.  This means that you do not need to keep a full copy of the project on your client PC.  But at the price you will feel latency to all file system operations.
 
 The disadvantage of TRAMP is Emacs Lisp compatibility.  Especially in the case of several packages, processing depending on the file system is lacking consideration or it may be slow even if it works.  For example, [[https://magit.vc/][Magit]] also works via TRAMP, but it's very slow.
+*** vs emacs-ssh-deploy
+[[https://github.com/cjohansson/emacs-ssh-deploy][ssh-deploy]] package is a TRAMP wrapper like =copy-file-on-save=, but it has many features such as directory recursive deployment and diff between remote and local.  If you want rich features you should use *ssh-deploy*.
+
+On the other hand, we only provide simple functions.  We recommend using tools and scripts such as rsync and git for multi-file deployment.
 *** For deployment
 A typical use of this feature is to place PHP files on the remote development server.  However, this is useful not only for PHP but also for synchronizing files without depend on shared directory function of virtual environments ([[https://www.virtualbox.org/][VirtualBox]], [[https://www.vagrantup.com/][Vagrant]] and [[https://www.docker.com/][Docker]]).
 *** Extends TRAMP
