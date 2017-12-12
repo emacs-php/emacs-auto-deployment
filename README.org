@@ -1,4 +1,10 @@
 * Emacs auto-deployment
+
+#+BEGIN_HTML
+<a href="https://melpa.org/#/copy-file-on-save"><img alt="MELPA: copy-file-on-save" src="https://melpa.org/packages/copy-file-on-save-badge.svg"></a>
+<a href="https://stable.melpa.org/#/copy-file-on-save"><img alt="MELPA stable: copy-file-on-save" src="https://stable.melpa.org/packages/copy-file-on-save-badge.svg"></a>
+#+END_HTML
+
 =copy-file-on-save= is a minor mode to copy the file to another path on [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Standard-Hooks.html][after-save-hook]].  This not only saves the backup in the project specific path, it also you can realize the deployment to the remote server over TRAMP.
 ** Why =copy-file-on-save=?
 The original name of this feature was *auto-deployment*.  It was named after [[https://confluence.jetbrains.com/display/PhpStorm/Sync+changes+and+automatic+upload+to+a+deployment+server+in+PhpStorm][JetBrains' automatic deployment function]].  But in Emacs this function can be realized by TRAMP's excellent file system abstraction layer.  That is, deploying to remote server is just done with only =copy-file= function.
