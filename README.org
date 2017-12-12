@@ -46,3 +46,7 @@ Please don't worry.  This mode does not work in buffers that do not have availab
 ;; You can ommit path if it is enough specific your project.
 (add-to-list 'auto-minor-mode-alist '("/work/your-project/" . copy-file-on-save-mode))
 #+END_SRC
+** Changelog
+See also [[/CONTRIBUTORS.org][CONTRIBUTORS]].
+*** v0.0.3
+- *[ENHANCEMENT,BUG]* Fixed saving failed when there was no directory.  /(Thanks @Csomnia)/
