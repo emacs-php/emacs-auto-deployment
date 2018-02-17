@@ -72,16 +72,14 @@
 ;; Directory Local variables
 ;;;###autoload
 (progn
-  (defvar copy-file-on-save-dest-dir nil
+  (defvar-local copy-file-on-save-dest-dir nil
     "Path to deployment directory or convert (mapping) function.")
-  (make-variable-buffer-local 'copy-file-on-save-dest-dir)
   (put 'copy-file-on-save-dest-dir 'safe-local-variable #'stringp))
 
 ;;;###autoload
 (progn
-  (defvar copy-file-on-save-ignore-patterns '("/\\.dir-locals\\.el\\'" "/\\.git/")
+  (defvar-local copy-file-on-save-ignore-patterns '("/\\.dir-locals\\.el\\'" "/\\.git/")
     "Ignore deploy when buffer-filename matched by these patterns.")
-  (make-variable-buffer-local 'copy-file-on-save-ignore-patterns)
   (put 'copy-file-on-save-ignore-patterns 'safe-local-variable
        (lambda (obj)
          (and (listp obj)
