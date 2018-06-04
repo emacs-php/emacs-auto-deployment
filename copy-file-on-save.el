@@ -4,7 +4,7 @@
 
 ;; Author: USAMI Kenta <tadsan@zonu.me>
 ;; Created: 27 Jul 2017
-;; Version: 0.0.3
+;; Version: 0.0.5
 ;; Keywords: files comm deploy
 ;; URL: https://github.com/emacs-php/emacs-auto-deployment
 ;; Package-Requires: ((emacs "24.3") (cl-lib "0.5") (f "0.17") (s "1.7.0"))
