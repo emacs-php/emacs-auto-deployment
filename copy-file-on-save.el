@@ -52,7 +52,7 @@
 (require 'cl-lib)
 (require 'f)
 (require 's)
-(require 'projectile nil)
+(require 'projectile nil t)
 
 (defgroup copy-file-on-save nil
   "Copy file on save, automatic deployment it."
