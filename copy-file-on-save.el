@@ -1,6 +1,6 @@
 ;;; copy-file-on-save.el --- Copy file on save, automatic deployment it. -*- lexical-binding: t -*-
 
-;; Copyright (C) 2017 USAMI Kenta
+;; Copyright (C) 2020  Friends of Emacs-PHP development
 
 ;; Author: USAMI Kenta <tadsan@zonu.me>
 ;; Created: 27 Jul 2017
