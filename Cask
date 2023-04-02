@@ -1,5 +1,6 @@
 (package "copy-file-on-save" "0.0.3" "Automatic syncronize when file saved.")
-(source "melpa" "https://melpa.org/packages/")
+(source melpa)
+(source gnu)
 
 (package-file "copy-file-on-save.el")
 

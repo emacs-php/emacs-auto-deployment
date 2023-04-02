@@ -7,7 +7,7 @@
 ;; Version: 0.0.5
 ;; Keywords: files comm deploy
 ;; URL: https://github.com/emacs-php/emacs-auto-deployment
-;; Package-Requires: ((emacs "24.3") (cl-lib "0.5") (f "0.17") (s "1.7.0"))
+;; Package-Requires: ((emacs "24.3") (compat "29"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -50,8 +50,7 @@
 
 ;;; Code:
 (require 'cl-lib)
-(require 'f)
-(require 's)
+(require 'compat nil t)
 (require 'projectile nil t)
 
 (defgroup copy-file-on-save nil
@@ -154,7 +153,9 @@
 
 (defun copy-file-on-save--replace-path (src-file-path)
   "Return replace dest file path by `SRC-FILE-PATH'."
-  (f-join copy-file-on-save-dest-dir (s-replace (copy-file-on-save--base-dir) "" src-file-path)))
+  (let (file-name-handler-alist)
+    (expand-file-name (string-replace (copy-file-on-save--base-dir) "" src-file-path)
+                      copy-file-on-save-dest-dir)))
 
 ;;;###autoload
 (defun turn-on-copy-file-on-save ()
