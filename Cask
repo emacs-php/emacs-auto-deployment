@@ -1,4 +1,4 @@
-(package "copy-file-on-save" "0.0.3" "Automatic syncronize when file saved.")
+(package "copy-file-on-save" "0.1.0" "Automatic syncronize when file saved.")
 (source melpa)
 (source gnu)
 
