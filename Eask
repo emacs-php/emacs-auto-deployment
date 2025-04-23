@@ -1,3 +1,5 @@
+;; -*- mode: eask; lexical-binding: t -*-
+
 (package "copy-file-on-save"
          "0.1.0"
          "Automatic syncronize when file saved.")
