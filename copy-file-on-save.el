@@ -49,7 +49,8 @@
 
 
 ;;; Code:
-(require 'cl-lib)
+(eval-when-compile
+  (require 'cl-lib))
 (require 'compat nil t)
 (require 'projectile nil t)
 
