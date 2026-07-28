@@ -110,7 +110,7 @@
        (copy-file-on-save--not-matches-ignore-patterns buffer-file-name)))
 
 (defun copy-file-on-save--update-lighter (is-availabled)
-  "Update display mode-line if `IS-AVAILABLED' is non-NIL."
+  "Update display mode-line if IS-AVAILABLED is non-NIL."
   (setq copy-file-on-save-lighter (if (or is-availabled (not copy-file-on-save-remove-mode-line-unless-availabled))
                      copy-file-on-save-default-lighter
                    nil)))
@@ -152,7 +152,7 @@
     (copy-file from-path to-path t)))
 
 (defun copy-file-on-save--replace-path (src-file-path)
-  "Return replace dest file path by `SRC-FILE-PATH'."
+  "Return replace dest file path by SRC-FILE-PATH."
   (let (file-name-handler-alist)
     (expand-file-name (string-replace (copy-file-on-save--base-dir) "" src-file-path)
                       copy-file-on-save-dest-dir)))
